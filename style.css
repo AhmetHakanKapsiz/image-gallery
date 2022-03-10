@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#upload-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#upload-container>div {
+    flex: 50%;
+    border: 2px solid black;
+}
