@@ -13,3 +13,17 @@ body {
     border: 2px solid black;
     height: 450px;
 }
+
+#canvas {
+    border: 2px solid black;
+    display: block;
+}
+
+button, input {
+    margin: 5px;
+}
+
+#image-container {
+    display: flex;
+    justify-content: flex-start;
+}
