@@ -24,12 +24,7 @@ request.onerror = e => {
 
 request.onsuccess = e => {
     db = e.target.result;
-
     display();
-
-    db.onerror = event => {
-        console.log('Database error: ' + event.target.errorCode)
-    };
 };
 
 request.onupgradeneeded = e => {
@@ -37,14 +32,7 @@ request.onupgradeneeded = e => {
 
     let store = db.createObjectStore("images", { keyPath: 'id', autoIncrement: true });
 
-    store.createIndex("name", "name", { unique: false });
     store.createIndex("image", "image", { unique: false });
-
-    store.transaction.oncomplete = e => {
-        let images = db.transaction('images', 'readwrite').objectStore('images');
-
-        images.add({ name: 'resim', image: new Blob() });
-    };
 };
 
 function validFileType(file) {
@@ -66,14 +54,18 @@ input.addEventListener('change', e => {
         canvasDiv.appendChild(btn);
 
         btn.addEventListener('click', ev => {
+            btn.remove();
             let images = db.transaction('images', 'readwrite').objectStore('images');
-            images.add({ name: 'yeni', image: file});
+            let req = images.add({ image: file });
+
+            req.onsuccess = () => display();
         });
     }
 
 });
 
 function display() {
+    imageContainer.innerHTML = '';
     let store = db.transaction('images').objectStore('images');
     store.getAll().onsuccess = e => {
         let images = e.target.result;
@@ -81,15 +73,28 @@ function display() {
         for (const item of images) {
             let div = document.createElement('div');
             div.classList.add('image-card');
+/*
             let p = document.createElement('p');
-            p.textContent = item.name;
-            let img = new Image();
+            p.textContent = item.name;*/
+
+            let img = new Image(250, 250);
             img.src = URL.createObjectURL(item.image);
 
+            let btn = document.createElement('button');
+            btn.textContent = 'Remove';
+
             div.appendChild(img);
-            div.appendChild(p);
+            //div.appendChild(p);
+            div.appendChild(btn);
 
             imageContainer.appendChild(div);
+
+            btn.addEventListener('click', e => {
+                let images = db.transaction('images', 'readwrite').objectStore('images');
+                let req = images.delete(item.id);
+
+                req.onsuccess = () => display();
+            });
         }
     };
 }
