@@ -1,5 +1,7 @@
 const uploadContainer = document.querySelector('#upload-container');
 const imageContainer = document.querySelector('#image-container');
+const uploadDiv = document.querySelector('#upload-div');
+const canvasDiv = document.querySelector('#canvas-div');
 const input = document.querySelector('#upload');
 const canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
@@ -29,7 +31,7 @@ input.addEventListener('change', e => {
 
         const btn = document.createElement('button');
         btn.textContent = "Save it to the gallery";
-        imageContainer.appendChild(btn);
+        canvasDiv.appendChild(btn);
 
         btn.addEventListener('click', ev => {
             document.body.appendChild(img);
