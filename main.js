@@ -26,6 +26,14 @@ input.addEventListener('change', e => {
             ctx.drawImage(img, 0, 0, 400, 400);
         }
         img.src = URL.createObjectURL(file);
+
+        const btn = document.createElement('button');
+        btn.textContent = "Save it to the gallery";
+        imageContainer.appendChild(btn);
+
+        btn.addEventListener('click', ev => {
+            document.body.appendChild(img);
+        });
     }
 
 });
