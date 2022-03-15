@@ -27,3 +27,7 @@ button, input {
     display: flex;
     justify-content: flex-start;
 }
+
+.image-card {
+    width: 250px;
+}
